@@ -13,8 +13,8 @@ DEFAULT_TIMEOUT = 60
 
 
 class Downloader:
-  def __init__(self, delay=DEFAULT_DELAY, user_agent=DEFAULT_AGENT, 
-    proxies=None, num_retries=DEFAULT_RETRIES, timeout=DEFAULT_TIMEOUT,   
+  def __init__(self, delay=DEFAULT_DELAY, user_agent=DEFAULT_AGENT,
+    proxies=None, num_retries=DEFAULT_RETRIES, timeout=DEFAULT_TIMEOUT,
       opener=None, cache=None):
     socket.setdefaulttimeout(timeout)
     self.throttle = Throttle(delay)
@@ -44,15 +44,16 @@ class Downloader:
       self.throttle.wait(url)
       proxy = random.choice(self.proxies) if self.proxies \
         else None
-      headers = {'User-agent': self.user_agent }
+      headers = {'User-agent': self.user_agent}
       result = self.download(url, headers, proxy=proxy,
         num_retries=self.num_retries)
       if self.cache:
         # save result to cache
         self.cache[url] = result
     return result['html']
-    
-  def download(self, url, headers, proxy, num_retries, data=None):
+
+  def download(self, url, headers={'User-agent': DEFAULT_AGENT},
+    proxy=None, num_retries=DEFAULT_RETRIES, data=None):
     print('Downloading: %s' % url)
     _request = request.Request(url, data, headers or {})
     opener = self.opener or request.build_opener()
@@ -74,8 +75,8 @@ class Downloader:
       else:
         code = None
     return {'html': html, 'code': code}
-    
-    
+
+
 class Throttle:
   '''
     Throttle downloading by sleeping between requests to same domain
@@ -85,7 +86,7 @@ class Throttle:
     self.delay = delay
     # timestamp of when a domain was last accessed
     self.domains = {}
-    
+
   def wait(self, url):
     '''
       Delay if have accessed this doamin recently
@@ -97,4 +98,3 @@ class Throttle:
       if sleep_secs > 0:
         time.sleep(sleep_secs)
     self.domains[domain] = datetime.now()
-  
