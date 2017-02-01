@@ -32,7 +32,7 @@ class Downloader:
         # url is not available in cache
         pass
     else:
-      if self.num_retries > 0 and \
+      if result and self.num_retries > 0 and \
         500 <= result['code'] < 600:
         # server error so ignore result from cache
         # and re-download
@@ -49,7 +49,7 @@ class Downloader:
       if self.cache:
         # save result to cache
         self.cache[url] = result
-    return result['html']
+    return result['html'].decode()
 
   def download(self, url, headers={'User-agent': DEFAULT_AGENT},
     proxy=None, num_retries=DEFAULT_RETRIES, data=None):

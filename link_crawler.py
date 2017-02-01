@@ -12,12 +12,11 @@ DEFAULT_DELAY = 5
 DEFAULT_DEPTH = -1
 DEFAULT_URL = -1
 DEFAULT_AGENT = 'wswp'
-DEFAULT_PROXY = -1
 DEFAULT_RETRY = 1
 
 
 def link_crawler(seed_url, link_regex=None, delay=DEFAULT_DELAY, max_depth=DEFAULT_DEPTH,
-  max_urls=DEFAULT_URL, user_agent=DEFAULT_AGENT, proxies=DEFAULT_PROXY, num_retries=DEFAULT_RETRY,
+  max_urls=DEFAULT_URL, user_agent=DEFAULT_AGENT, proxies=None, num_retries=DEFAULT_RETRY,
     scrape_callback=None, cache=None):
   '''
     Crawl from the given seed URL following links matched by link_regex
@@ -37,7 +36,7 @@ def link_crawler(seed_url, link_regex=None, delay=DEFAULT_DELAY, max_depth=DEFAU
     depth = seen[url]
     # check url passes robots.txt restrictions
     if rp.can_fetch(user_agent, url):
-      html = D.download(url)['html'].decode()
+      html = D(url)
       links = []
       if scrape_callback:
         links.extend(scrape_callback(url, html) or [])
