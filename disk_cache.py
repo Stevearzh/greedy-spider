@@ -105,6 +105,9 @@ class DiskCache:
     filename = re.sub('[^/0-9a-zA-Z\-.,;_ ]', '_', filename)
     # restrict maximum number of characters
     filename = '/'.join(segment[:255] for segment in filename.split('/'))
+    # convert plan type files to html
+    if not path.endswith('.html'):
+      filename += '.html'
     return os.path.join(self.cache_dir, filename)
     
     
@@ -124,4 +127,4 @@ class DiskCache:
       
       
 if __name__ == '__main__':
-  link_crawler('http://example.webscraping.com/', '/(index|view)', cache=DiskCache(compress=False))
+  link_crawler('http://www.zhihu.com/', '/*', cache=DiskCache(compress=False))
