@@ -57,7 +57,7 @@ def link_crawler(seed_url, link_regex=None, delay=DEFAULT_DELAY, max_depth=DEFAU
             # check link is within same domain
             if same_domain(seed_url, link):
               # success add this new link to queue
-              crawl_queue.qppend(link)
+              crawl_queue.append(link)
               
       # check whether have reached downloaded maximum
       num_urls += 1
