@@ -13,11 +13,13 @@ DEFAULT_DEPTH = -1
 DEFAULT_URL = -1
 DEFAULT_AGENT = 'wswp'
 DEFAULT_RETRY = 1
+DEFAULT_TIMEOUT = 60
+DEFAULT_IGNORE_ROBOTS = False
 
 
 def link_crawler(seed_url, link_regex=None, delay=DEFAULT_DELAY, max_depth=DEFAULT_DEPTH,
   max_urls=DEFAULT_URL, user_agent=DEFAULT_AGENT, proxies=None, num_retries=DEFAULT_RETRY,
-    scrape_callback=None, cache=None):
+    timeout=DEFAULT_TIMEOUT, ignore_robots=DEFAULT_IGNORE_ROBOTS, scrape_callback=None, cache=None):
   '''
     Crawl from the given seed URL following links matched by link_regex
   '''
@@ -29,13 +31,13 @@ def link_crawler(seed_url, link_regex=None, delay=DEFAULT_DELAY, max_depth=DEFAU
   num_urls = 0
   rp = get_robots(seed_url)
   D = Downloader(delay=delay, user_agent=user_agent, proxies=proxies,
-    num_retries=num_retries, cache=cache)
+    num_retries=num_retries, timeout=timeout, cache=cache)
     
   while crawl_queue:
     url = crawl_queue.pop()
     depth = seen[url]
     # check url passes robots.txt restrictions
-    if rp.can_fetch(user_agent, url):
+    if ignore_robots or rp.can_fetch(user_agent, url):
       html = D(url)
       links = []
       if scrape_callback:
