@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 from link_crawler import link_crawler
 
-DEFAULT_CACHE_DIR='cache'
+DEFAULT_CACHE_DIR ='cache'
 DEFAULT_EXPIRES = timedelta(days=30)
 
 
@@ -22,7 +22,7 @@ class DiskCache:
     >>> url = 'http://example.webscraping.com'
     >>> result = {'html': '...'}
     >>> cache[url] = result
-    >>> cache[url] == result
+    >>> cache[url]['html'] == result['html']
     True
     >>> cache = DiskCache(expires=timedelta())
     >>> cache[url] = result
@@ -105,6 +105,8 @@ class DiskCache:
     filename = re.sub('[^/0-9a-zA-Z\-.,;_ ]', '_', filename)
     # restrict maximum number of characters
     filename = '/'.join(segment[:255] for segment in filename.split('/'))
+    if not filename.endswith('.html'):
+      filename += '.html'
     return os.path.join(self.cache_dir, filename)
     
     
@@ -124,4 +126,4 @@ class DiskCache:
       
       
 if __name__ == '__main__':
-  link_crawler('http://www.zhihu.com/', '/*', cache=DiskCache())
+  link_crawler('http://www.douban.com/', '/*', cache=DiskCache(compress=False), ignore_robots=True)

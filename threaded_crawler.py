@@ -4,12 +4,12 @@ import urllib
 
 from downloader import Downloader
 
-DEFAULT_DELAY=5
-DEFAULT_AGENT='wswp'
-DEFAULT_RETRY=1
-DEFAULT_THREADS=10
-DEFAULT_TIMEOUT=60
-SLEEP_TIME=1
+DEFAULT_DELAY = 5
+DEFAULT_AGENT = 'wswp'
+DEFAULT_RETRY = 1
+DEFAULT_THREADS = 10
+DEFAULT_TIMEOUT = 60
+SLEEP_TIME = 1
 
 
 def threaded_crawler(seed_url, delay=DEFAULT_DELAY, cache=None, 
