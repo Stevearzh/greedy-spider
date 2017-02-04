@@ -13,7 +13,7 @@ DEFAULT_AGENT = 'wswp'
 DEFAULT_RETRY = 1
 DEFAULT_THREAD = 10
 DEFAULT_TIMEOUT = 60
-SEEP_TIME = 1
+SLEEP_TIME = 1
 
 
 def threaded_crawler(seed_url, delay=DEFAULT_DELAY, cache=None,
