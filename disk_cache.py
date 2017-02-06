@@ -71,7 +71,7 @@ class DiskCache:
     folder = os.path.dirname(path)
     if not os.path.exists(folder):
       os.makedirs(folder)
-    data = pickle.dumps((result, datetime.utcnow()))
+    data = pickle.dumps((result['html'], datetime.utcnow())) if not url.endswith('.jpg') else result['html']
     if self.compress:
       data = zlib.compress(data)
     with open(path, 'wb') as fp:
@@ -105,8 +105,6 @@ class DiskCache:
     filename = re.sub('[^/0-9a-zA-Z\-.,;_ ]', '_', filename)
     # restrict maximum number of characters
     filename = '/'.join(segment[:255] for segment in filename.split('/'))
-    if not filename.endswith('.html'):
-      filename += '.html'
     return os.path.join(self.cache_dir, filename)
     
     

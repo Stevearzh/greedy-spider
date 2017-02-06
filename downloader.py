@@ -49,7 +49,10 @@ class Downloader:
       if self.cache:
         # save result to cache
         self.cache[url] = result
-    return result['html'].decode() if type(result['html']) is bytes else result['html']
+    try:
+      return result['html'].decode()
+    except Exception as e:
+      return result['html']
 
   def download(self, url, headers={'User-agent': DEFAULT_AGENT},
     proxy=None, num_retries=DEFAULT_RETRIES, data=None):
